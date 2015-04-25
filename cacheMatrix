@@ -1,0 +1,33 @@
+## A list of matrix operations
+#get: get the matrix
+#set: use the input to set the matrix
+#getinv: get the inverse of the matrix if it exist
+#setinv: use the input matrix to set the inversed matrix
+makeCacheMatrix <- function(x = matrix()) {
+        m <- NULL
+        set <- function(y) {
+                x <<- y
+                m <<- NULL
+        }
+        get <- function() x
+        setinv <- function(inv_x) m <<- inv_x
+        getinv <- function() m
+        list(set = set, get = get,
+             setinv = setinv,
+             getinv = getinv)
+}
+
+#solve the inverse:
+##if the inverse exists, just read it out
+##if not, solve for it
+cacheSolve <- function(x, ...) {
+        m <- x$getinv()
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
+        }
+        data <- x$get()
+        m <- solve(data)
+        x$setinv(m)
+        m
+}
